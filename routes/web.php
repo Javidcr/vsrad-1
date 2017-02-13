@@ -11,6 +11,9 @@
 |
 */
 
+
+// Esto es un comentario
+
 Route::get('/', function () {
 
     return view('welcome');
