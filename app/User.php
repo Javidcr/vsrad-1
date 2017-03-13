@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
     use Notifiable;
 
     /**
@@ -26,4 +27,33 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static $roles = [
+        'cliente', 'comercial', 'tecnico', 'director_comercial', 'administrador'
+    ];
+
+    public static $title = [
+        'Cliente', 'Comercial', 'Técnico', 'Director Comercial', 'Administrador'
+    ];
+
+
+    public function hasRole($role)
+    {
+        return User::$roles[$this->role] == $role;
+    }
+
+    public function getRole() {
+        return User::$roles[$this->role];
+    }
+
+    public function getCompleteName() {
+        return User::$title[$this->role] . ". " . $this->name;
+    }
+
+    public function proyectos()
+    {
+        return $this->hasMany('App\Proyecto', 'cliente_id');
+    }
+
+
 }

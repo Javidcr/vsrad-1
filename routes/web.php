@@ -11,21 +11,49 @@
 |
 */
 
+Route::group(['middleware' => 'guest'], function () {
 
-// Esto es un comentario
-
-Route::get('/', function () {
-
-    return view('welcome');
+//    Route::get('/', function () {
+//        return "Test";
+//    });
 
 });
 
-Route::get('/about', function () {
+Route::group(['middleware' => 'auth'], function () {
 
-    return view('about');
+    Route::get('/', 'HomeController@index');
+
+//    Route::group(['middleware' => 'role:administrador'], function () {
+//        Route::get('/', "AdministradorController@index");
+//    });
+//
+    Route::group(['middleware' => 'role:cliente'], function () {
+//        Route::get('/', "ClienteController@index");
+    });
+//
+//    Route::group(['middleware' => 'role:tecnico'], function () {
+//        Route::get('/', "TecnicoController@index");
+//    });
+
+    Route::resource('/proyectos', 'ProyectosController');
+    Route::get('/proyectos/cambiarEstado/{id}', 'ProyectosController@cambiarEstado');
+
+    Route::resource('/componentes', 'ComponentesController');
 
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+
+
+
+
+
+
+
+
+
+
+
+
+
